@@ -7,7 +7,7 @@
     <title>PlayHAM</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
-    <!-- Include Safe Apps SDK -->
+    <!-- Add Safe Apps SDK Script -->
     <script src="https://unpkg.com/@safe-global/safe-apps-sdk"></script>
   </head>
   <body class="dark">
@@ -25,22 +25,6 @@
     </div>
     <div id="unity-fullscreen-button" style="display: none"></div>
     <script type="module">
-      import SafeAppsSDK from 'https://unpkg.com/@safe-global/safe-apps-sdk';
-
-      const sdk = new SafeAppsSDK({
-        appOrigin: window.location.origin,
-        allowedDomains: ['https://*.blockscout.com']
-      });
-
-      async function connectWallet() {
-        try {
-          const safeInfo = await sdk.safe.getSafeInfo();
-          console.log('Wallet connected:', safeInfo);
-        } catch (error) {
-          console.error('Error connecting wallet:', error);
-        }
-      }
-
       const hideFullScreenButton = "";
       const buildUrl = "Build";
       const loaderUrl = buildUrl + "/last ship.loader.js";
@@ -86,6 +70,14 @@
       const script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
+        // Ensure Safe Apps SDK is loaded
+        if (window.SafeAppsSDK) {
+          const safeAppsSdk = window.SafeAppsSDK;
+          // Initialize Safe Apps SDK here if needed
+        } else {
+          console.error('Safe Apps SDK is not loaded');
+        }
+
         import('./lib/thirdweb-unity-bridge.js').then(module => {
           createUnityInstance(canvas, config, (progress) => {
             spinner.style.display = "none";
@@ -107,11 +99,6 @@
         });
       };
       document.body.appendChild(script);
-
-      // Call connectWallet function on page load or user action
-      document.addEventListener('DOMContentLoaded', () => {
-        connectWallet(); // Optionally, connect the wallet on page load or on user interaction
-      });
     </script>
   </body>
 </html>
