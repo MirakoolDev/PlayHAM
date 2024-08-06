@@ -8,7 +8,18 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
     <!-- Add Safe Apps SDK Script -->
-    <script type="module"> import @safe-global/safe-apps-sdk from https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.1.0/+esm </script>
+    <script type="module">
+      import SafeAppsSDK from 'https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.1.0/+esm';
+
+      // Initialize Safe Apps SDK
+      const safeAppsSdk = new SafeAppsSDK({
+        allowedDomains: [/^blockscout\.com$/],  // Adjust to your needs
+        debug: true
+      });
+
+      // Check if the SDK is initialized correctly
+      console.log('Safe Apps SDK instance created:', safeAppsSdk);
+    </script>
   </head>
   <body class="dark">
     <div id="unity-container" class="unity-desktop">
@@ -71,22 +82,6 @@
       const script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
-        // Ensure Safe Apps SDK is loaded and initialized
-        if (window.SafeAppsSDK) {
-          const safeAppsSdk = new window.SafeAppsSDK({
-            allowedDomains: [/^blockscout\.com$/],  // Adjust to your needs
-            debug: true
-          });
-
-          // Check if Safe Apps SDK is properly initialized
-          console.log('Safe Apps SDK instance created', safeAppsSdk);
-
-          // You can now use the SDK methods here, for example:
-          // safeAppsSdk.safe.getInfo().then(info => console.log(info));
-        } else {
-          console.error('Safe Apps SDK is not loaded');
-        }
-
         import('./lib/thirdweb-unity-bridge.js').then(module => {
           createUnityInstance(canvas, config, (progress) => {
             spinner.style.display = "none";
