@@ -3,23 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title>PlayHAM</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
-    <!-- Add Safe Apps SDK Script -->
-    <script type="module">
-      import SafeAppsSDK from 'https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.1.0/+esm';
-
-      // Initialize Safe Apps SDK
-      const safeAppsSdk = new SafeAppsSDK({
-        allowedDomains: [/^blockscout\.com$/],  // Adjust to your needs
-        debug: true
-      });
-
-      // Check if the SDK is initialized correctly
-      console.log('Safe Apps SDK instance created:', safeAppsSdk);
-    </script>
   </head>
   <body class="dark">
     <div id="unity-container" class="unity-desktop">
@@ -36,73 +26,72 @@
     </div>
     <div id="unity-fullscreen-button" style="display: none"></div>
     <script type="module">
-      const hideFullScreenButton = "";
-      const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/last ship.loader.js";
-      const config = {
-        dataUrl: buildUrl + "/last ship.data",
-        frameworkUrl: buildUrl + "/last ship.framework.js",
-        codeUrl: buildUrl + "/last ship.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Floats",
-        productName: "PlayHAM",
-        productVersion: "0.1.1",
-      };
+            const hideFullScreenButton = "";
+            const buildUrl = "Build";
+            const loaderUrl = buildUrl + "/backdrop build.loader.js";
+            const config = {
+              dataUrl: buildUrl + "/backdrop build.data",
+              frameworkUrl: buildUrl + "/backdrop build.framework.js",
+              codeUrl: buildUrl + "/backdrop build.wasm",
+              streamingAssetsUrl: "StreamingAssets",
+              companyName: "Floats",
+              productName: "PlayHAM",
+              productVersion: "0.1.1",
+            };
 
-      const container = document.querySelector("#unity-container");
-      const canvas = document.querySelector("#unity-canvas");
-      const loadingCover = document.querySelector("#loading-cover");
-      const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
-      const progressBarFull = document.querySelector("#unity-progress-bar-full");
-      const fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      const spinner = document.querySelector('.spinner');
+            const container = document.querySelector("#unity-container");
+            const canvas = document.querySelector("#unity-canvas");
+            const loadingCover = document.querySelector("#loading-cover");
+            const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+            const progressBarFull = document.querySelector("#unity-progress-bar-full");
+            const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+            const spinner = document.querySelector('.spinner');
 
-      const canFullscreen = (function() {
-        for (const key of [
-            'exitFullscreen',
-            'webkitExitFullscreen',
-            'webkitCancelFullScreen',
-            'mozCancelFullScreen',
-            'msExitFullscreen',
-          ]) {
-          if (key in document) {
-            return true;
-          }
-        }
-        return false;
-      }());
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        container.className = "unity-mobile";
-        config.devicePixelRatio = 1;
-      }
-      canvas.style.background = "url('" + buildUrl + "/last ship.jpg') center / cover";
-      loadingCover.style.display = "";
-
-      const script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        import('./lib/thirdweb-unity-bridge.js').then(module => {
-          createUnityInstance(canvas, config, (progress) => {
-            spinner.style.display = "none";
-            progressBarEmpty.style.display = "";
-            progressBarFull.style.width = `${100 * progress}%`;
-          }).then((unityInstance) => {
-            loadingCover.style.display = "none";
-            if (canFullscreen) {
-              if (!hideFullScreenButton) {
-                fullscreenButton.style.display = "";
+            const canFullscreen = (function() {
+              for (const key of [
+                  'exitFullscreen',
+                  'webkitExitFullscreen',
+                  'webkitCancelFullScreen',
+                  'mozCancelFullScreen',
+                  'msExitFullscreen',
+                ]) {
+                if (key in document) {
+                  return true;
+                }
               }
-              fullscreenButton.onclick = () => {
-                unityInstance.SetFullscreen(1);
-              };
+              return false;
+            }());
+
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              container.className = "unity-mobile";
+              config.devicePixelRatio = 1;
             }
-          }).catch((message) => {
-            alert(message);
-          });
-        });
-      };
-      document.body.appendChild(script);
+            canvas.style.background = "url('" + buildUrl + "/backdrop build.jpg') center / cover";
+            loadingCover.style.display = "";
+            const script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = () => {
+              import('./lib/thirdweb-unity-bridge.js').then(module => {
+                createUnityInstance(canvas, config, (progress) => {
+                  spinner.style.display = "none";
+                  progressBarEmpty.style.display = "";
+                  progressBarFull.style.width = `${100 * progress}%`;
+                }).then((unityInstance) => {
+                  loadingCover.style.display = "none";
+                  if (canFullscreen) {
+                    if (!hideFullScreenButton) {
+                      fullscreenButton.style.display = "";
+                    }
+                    fullscreenButton.onclick = () => {
+                      unityInstance.SetFullscreen(1);
+                    };
+                  }
+                }).catch((message) => {
+                  alert(message);
+                });
+              });
+            };
+            document.body.appendChild(script);
     </script>
   </body>
 </html>
