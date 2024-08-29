@@ -7,19 +7,7 @@
     <title>PlayHAM</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
-    <!-- Add Safe Apps SDK Script -->
-    <script type="module">
-      import SafeAppsSDK from 'https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.1.0/+esm';
-
-      // Initialize Safe Apps SDK
-      const safeAppsSdk = new SafeAppsSDK({
-        allowedDomains: [/^blockscout\.com$/],  // Adjust to your needs
-        debug: true
-      });
-
-      // Check if the SDK is initialized correctly
-      console.log('Safe Apps SDK instance created:', safeAppsSdk);
-    </script>
+    
   </head>
   <body class="dark">
     <div id="unity-container" class="unity-desktop">
